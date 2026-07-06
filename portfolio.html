@@ -27,6 +27,10 @@
     />
   </head>
   <body>
+    <!-- Portal Transition Overlay -->
+    <div id="portalOverlay">
+      <img src="assets/Portal.svg" alt="Portal" id="portalImg" />
+    </div>
     <!-- Brick Wall Background -->
     <div id="wall"></div>
 
@@ -433,7 +437,11 @@
                   opacity="0.7"
                 />
 
-                <a href="index.html" style="cursor: pointer">
+                <a
+                  href="index.html"
+                  id="photoPortalLink"
+                  style="cursor: pointer"
+                >
                   <g clip-path="url(#clipOval)">
                     <image
                       href="assets/foto.png"
@@ -1898,6 +1906,24 @@
     <!-- AOS JS -->
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
+      (function () {
+        const overlay = document.getElementById("portalOverlay");
+        const photoLink = document.getElementById("photoPortalLink");
+        if (!overlay || !photoLink) return;
+
+        photoLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetUrl = photoLink.getAttribute("href");
+
+          overlay.classList.add("active");
+
+          // tunggu animasi portal sebelum pindah halaman
+          setTimeout(function () {
+            window.location.href = targetUrl;
+          }, 900); // sesuaikan dengan durasi animasi portal kamu
+        });
+      })();
+
       // Brick Wall Generator
       (function () {
         const wall = document.getElementById("wall");
@@ -1907,34 +1933,58 @@
         const colors = ["#1a3a2e", "#285A48", "#1e4d3a", "#326b55", "#163328"];
         const totalBricks = Math.floor(rows * bricksPerRow * 2.2);
 
-        for (let i = 0; i < totalBricks; i++) {
-          const brick = document.createElement("div");
-          brick.classList.add("brick");
+        function buildWall() {
+          wall.innerHTML = ""; // reset biar tidak menumpuk saat resize
 
-          const width = Math.floor(Math.random() * 30) + 40;
-          const height = Math.floor(Math.random() * 6) + 28;
-          brick.style.width = width + "px";
-          brick.style.height = height + "px";
+          // Luas area yang perlu ditutup (120vw x 120vh sesuai CSS #wall)
+          const wallWidth = window.innerWidth * 1.2;
+          const wallHeight = window.innerHeight * 1.2;
+          const wallArea = wallWidth * wallHeight;
 
-          brick.style.backgroundColor =
-            colors[Math.floor(Math.random() * colors.length)];
+          // Rata-rata luas 1 bata (lebar ~55px, tinggi ~31px, + margin)
+          const avgBrickArea = 60 * 34;
 
-          const b1 = Math.floor(Math.random() * 6) + 1;
-          const b2 = Math.floor(Math.random() * 6) + 1;
-          const b3 = Math.floor(Math.random() * 6) + 1;
-          const b4 = Math.floor(Math.random() * 6) + 1;
-          brick.style.borderRadius =
-            b1 + "px " + b2 + "px " + b3 + "px " + b4 + "px";
+          // Buffer 1.4x biar random size tidak menyisakan celah
+          const totalBricks = Math.ceil((wallArea / avgBrickArea) * 1.4);
 
-          const rotation = (Math.random() * 2 - 1).toFixed(1);
-          brick.style.transform = "rotate(" + rotation + "deg)";
+          for (let i = 0; i < totalBricks; i++) {
+            const brick = document.createElement("div");
+            brick.classList.add("brick");
 
-          const marginX = Math.floor(Math.random() * 3) + 1;
-          const marginY = Math.floor(Math.random() * 3) + 1;
-          brick.style.margin = marginY + "px " + marginX + "px";
+            const width = Math.floor(Math.random() * 30) + 40;
+            const height = Math.floor(Math.random() * 6) + 28;
+            brick.style.width = `${width}px`;
+            brick.style.height = `${height}px`;
 
-          wall.appendChild(brick);
+            brick.style.backgroundColor =
+              colors[Math.floor(Math.random() * colors.length)];
+
+            const b1 = Math.floor(Math.random() * 6) + 1;
+            const b2 = Math.floor(Math.random() * 6) + 1;
+            const b3 = Math.floor(Math.random() * 6) + 1;
+            const b4 = Math.floor(Math.random() * 6) + 1;
+            brick.style.borderRadius =
+              b1 + "px " + b2 + "px " + b3 + "px " + b4 + "px";
+
+            const rotation = (Math.random() * 2 - 1).toFixed(1);
+            brick.style.transform = "rotate(" + rotation + "deg)";
+
+            const marginX = Math.floor(Math.random() * 3) + 1;
+            const marginY = Math.floor(Math.random() * 3) + 1;
+            brick.style.margin = marginY + "px " + marginX + "px";
+
+            wall.appendChild(brick);
+          }
         }
+
+        buildWall();
+
+        // Bangun ulang tembok saat ukuran layar berubah (misal buka di tab lain / resize window)
+        let resizeTimer;
+        window.addEventListener("resize", () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(buildWall, 300);
+        });
       })();
 
       // Contact Form -> Formspree (no backend/PHP needed)

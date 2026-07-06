@@ -70,6 +70,32 @@ body::after {
     z-index: -1;
 }
 
+/* ===== Portal Transition Overlay ===== */
+#portalOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background-color: var(--color-dark);
+    opacity: 0;
+    visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+    pointer-events: none;
+}
+
+#portalOverlay.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+#portalOverlay img {
+    width: min(80vw, 600px);
+    height: auto;
+}
+
 h1 {
     font-family: "Grenze Gotisch", cursive;
 }
@@ -441,6 +467,42 @@ a {
     border-radius: 0.75rem;
     perspective: 2000px;
     border: 0.5px solid var(--color-green-mid);
+
+    /* === Efek tumpukan halaman (page stack) === */
+    box-shadow:
+        3px 4px 0 0 #e6dcc0,
+        6px 8px 0 0 #dccfa8,
+        9px 12px 0 0 #d2c090,
+        12px 16px 0 0 #c7b177,
+        0 22px 35px rgba(0, 0, 0, 0.45);
+}
+
+/* Spine / lipatan sampul di sisi kiri */
+.book::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    width: 14px;
+    border-radius: 0.75rem 0 0 0.75rem;
+    background: linear-gradient(to right,
+            rgba(0, 0, 0, 0.35),
+            rgba(0, 0, 0, 0.08) 60%,
+            transparent);
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Highlight tipis di tepi kanan biar kesan glossy hardcover */
+.book::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 0.75rem;
+    box-shadow: inset -6px 0 10px -6px rgba(255, 255, 255, 0.4);
+    z-index: 3;
+    pointer-events: none;
 }
 
 .book h2 {
