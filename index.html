@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Selamat Datang</title>
+    <title>Selamat Datang | Jonathan Gianivan Sulestono</title>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -118,7 +118,7 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 40%;
+        height: 70%;
         background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
         pointer-events: none;
         z-index: -1;
@@ -127,15 +127,16 @@
       /* ===== Gerbang ===== */
       .castle-gate-container {
         position: relative;
-        width: clamp(260px, 65vmin, 1000px);
-        aspect-ratio: 420 / 500;
-        height: auto;
+        width: 30vw;
+        height: 35.7vw; /* rasio 500/420 dari ukuran asli */
+        min-width: 420px;
+        min-height: 500px;
+        max-width: 1600px;
+        max-height: 1714px;
         display: flex;
         justify-content: center;
         align-items: flex-end;
         cursor: pointer;
-        container-type: inline-size;
-        container-name: gate;
       }
 
       .castle-gate-container:focus-visible {
@@ -145,19 +146,19 @@
 
       .stone-arch {
         position: absolute;
-        inset: -4.8cqi;
-        border-radius: 57cqi 57cqi 2.4cqi 2.4cqi;
+        inset: -20px;
+        border-radius: 240px 240px 10px 10px;
         background: repeating-conic-gradient(
           from 0deg,
           var(--stone-base) 0deg 15deg,
           var(--stone-light) 15deg 30deg
         );
         box-shadow:
-          inset 0 0 7.2cqi #000,
-          0 2.4cqi 7.2cqi rgba(0, 0, 0, 0.8);
+          inset 0 0 30px #000,
+          0 10px 30px rgba(0, 0, 0, 0.8);
         z-index: 10;
         pointer-events: none;
-        border: 1.9cqi solid var(--stone-dark);
+        border: 8px solid var(--stone-dark);
         border-bottom: none;
       }
 
@@ -165,7 +166,7 @@
         position: relative;
         width: 100%;
         height: 100%;
-        border-radius: 52.4cqi 52.4cqi 1.2cqi 1.2cqi;
+        border-radius: 220px 220px 5px 5px;
         perspective: 1200px;
         z-index: 99;
       }
@@ -198,31 +199,31 @@
         background-repeat: repeat, repeat, no-repeat;
         transform-style: preserve-3d;
         transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-        box-shadow: inset 0 0 4.8cqi rgba(0, 0, 0, 0.8);
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
-        border: 0.5cqi solid var(--wood-dark);
+        border: 2px solid var(--wood-dark);
       }
 
       .door-panel.left {
         left: 0;
         transform-origin: left center;
-        border-radius: 52.4cqi 0 1.2cqi 1.2cqi;
+        border-radius: 220px 0 5px 5px;
         border-right: 1px solid var(--wood-dark);
       }
 
       .door-panel.right {
         right: 0;
         transform-origin: right center;
-        border-radius: 0 52.4cqi 1.2cqi 1.2cqi;
+        border-radius: 0 220px 5px 5px;
         border-left: 1px solid var(--wood-dark);
       }
 
       .metal-band {
         width: 100%;
-        height: 9.5cqi;
+        height: 40px;
         background: linear-gradient(
           to bottom,
           var(--metal-dark),
@@ -234,8 +235,8 @@
       }
 
       .stud {
-        width: 2.9cqi;
-        height: 2.9cqi;
+        width: 12px;
+        height: 12px;
         background: radial-gradient(
           circle at 30% 30%,
           var(--metal),
@@ -249,9 +250,9 @@
       }
 
       .handle-ring {
-        width: 9.5cqi;
-        height: 9.5cqi;
-        border: 1.4cqi solid var(--metal-dark);
+        width: 40px;
+        height: 40px;
+        border: 6px solid var(--metal-dark);
         border-radius: 50%;
         position: absolute;
         top: 55%;
@@ -260,11 +261,11 @@
       }
 
       .door-panel.left .handle-ring {
-        right: 4.8cqi;
+        right: 20px;
       }
 
       .door-panel.right .handle-ring {
-        left: 4.8cqi;
+        left: 20px;
       }
 
       .castle-gate-container.open .door-panel.left {
@@ -277,9 +278,9 @@
 
       .interior {
         position: absolute;
-        inset: 2.4cqi;
+        inset: 10px;
         background: var(--color-dark);
-        border-radius: 50cqi 50cqi 1.2cqi 1.2cqi;
+        border-radius: 210px 210px 5px 5px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -301,11 +302,11 @@
       }
 
       .scroll-paper {
-        margin-top: 24cqi;
+        margin-top: 100px;
         position: relative;
         width: 80%;
         background: var(--parchment);
-        padding: 9.5cqi 7.1cqi;
+        padding: 40px 30px;
         border-radius: 5px;
         box-shadow:
           0 10px 30px rgba(0, 0, 0, 0.8),
@@ -326,8 +327,8 @@
       }
 
       .shield-logo {
-        width: 19cqi;
-        height: 21.4cqi;
+        width: 80px;
+        height: 90px;
         background: linear-gradient(
           135deg,
           var(--color-green-mid),
@@ -358,12 +359,11 @@
         border-bottom: 2px solid var(--color-green-dark);
         display: inline-block;
         padding-bottom: 5px;
-        font-size: clamp(1rem, 6cqi, 1.6rem);
       }
 
       .scroll-paper p {
         color: var(--parchment-text);
-        font-size: clamp(0.75rem, 3.3cqi, 0.95rem);
+        font-size: 0.95rem;
         margin-bottom: 25px;
         font-style: italic;
       }
@@ -413,28 +413,28 @@
       /* ---------------- TORCHES & PARTICLES ---------------- */
       .torch {
         position: absolute;
-        top: 47.6cqi;
-        width: 4.8cqi;
-        height: 14.3cqi;
+        top: 200px;
+        width: 20px;
+        height: 60px;
         background: var(--stone-dark);
         z-index: 20;
       }
 
       .torch.left {
-        left: -14.3cqi;
+        left: -60px;
       }
 
       .torch.right {
-        right: -14.3cqi;
+        right: -60px;
       }
 
       .flame {
         position: absolute;
-        top: -7.1cqi;
+        top: -30px;
         left: 50%;
         transform: translateX(-50%);
-        width: 4.8cqi;
-        height: 6.7cqi;
+        width: 20px;
+        height: 28px;
         background: var(--fire-outer);
         border-radius: 50% 50% 40% 40%;
         box-shadow:
@@ -509,18 +509,60 @@
       .shield-logo .shield-initials {
         font-family: "Grenze Gotisch", cursive;
         font-weight: 900;
-        font-size: clamp(1.4rem, 10cqi, 3rem);
+        font-size: 3rem;
         color: var(--color-green-light);
         letter-spacing: 1px;
         user-select: none;
       }
+      @media (max-width: 768px) {
+        body {
+          align-items: center;
+          justify-content: center;
+          padding-bottom: 0;
+        }
 
-      /* Perangkat sangat sempit (misal ponsel lipat/landscape pendek):
-         batasi lebar minimum tetap sehingga gerbang tidak gepeng,
-         tapi tetap satu gerbang yang sama untuk semua ukuran layar. */
-      @media (max-width: 340px) {
+        .door-frame,
+        .stone-arch,
+        .torch {
+          display: none !important;
+          pointer-events: none !important;
+        }
+
         .castle-gate-container {
-          width: clamp(220px, 90vw, 640px);
+          width: min(90vw, 420px) !important;
+          height: auto !important;
+          padding: 20px;
+          display: flex;
+          justify-content: center;
+          align-items: flex-start;
+        }
+
+        /* bayangan gelap dipindah ke wall, tidak lagi ikut ukuran gerbang */
+        #wall::after {
+          content: "";
+          position: fixed;
+          inset: 0;
+          background: rgba(9, 20, 19, 0.85);
+          pointer-events: none;
+          z-index: -1;
+        }
+
+        .interior {
+          position: relative;
+          inset: 0;
+          width: 100%;
+          border-radius: 10px;
+          background: transparent;
+          padding: 20px;
+          box-shadow: none;
+        }
+
+        .scroll-paper {
+          margin-top: 0 !important;
+          transform: scale(1) translateY(0) !important;
+          opacity: 1 !important;
+          pointer-events: auto !important;
+          width: 100% !important;
         }
       }
     </style>
