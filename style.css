@@ -31,6 +31,13 @@
     --color-envelope-bg: #e2f2eb;
     --color-envelope-side: #6FA78D;
     --color-glow: rgba(40, 90, 72, 0.35);
+
+
+    --brick-1: #1a3a2e;
+    --brick-2: #285a48;
+    --brick-3: #1e4d3a;
+    --brick-4: #326b55;
+    --brick-5: #163328;
 }
 
 *,
@@ -91,9 +98,128 @@ body::after {
     pointer-events: all;
 }
 
+#portalOverlay.active img {
+    filter: url(#portalDistort);
+    animation: portal-distort-pulse 2s ease-in-out infinite alternate;
+}
+
 #portalOverlay img {
     width: min(80vw, 600px);
     height: auto;
+    transition: filter 0.3s ease;
+}
+
+/* Portal distortion pulse animation */
+@keyframes portal-distort-pulse {
+    0% {
+        filter: url(#portalDistort);
+    }
+
+    100% {
+        filter: url(#portalDistort);
+    }
+}
+
+/* Screen shake when portal activates */
+@keyframes portal-shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-4px) rotate(-0.5deg);
+    }
+
+    40% {
+        transform: translateX(4px) rotate(0.5deg);
+    }
+
+    60% {
+        transform: translateX(-3px) rotate(-0.3deg);
+    }
+
+    80% {
+        transform: translateX(3px) rotate(0.3deg);
+    }
+}
+
+body.portal-shaking {
+    animation: portal-shake 0.15s ease-in-out;
+}
+
+/* Portal exit animation (portfolio -> index) - zoom swallow */
+#portalOverlay.portal-exit.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+#portalOverlay.portal-exit.active img {
+    filter: url(#portalDistort);
+    animation: portal-exit-zoom 0.8s cubic-bezier(0.55, 0, 0.1, 1) forwards;
+}
+
+@keyframes portal-exit-zoom {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    20% {
+        transform: scale(0.3) rotate(-2deg);
+        opacity: 1;
+    }
+
+    60% {
+        transform: scale(1.15) rotate(1deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2.5) rotate(0deg);
+        opacity: 0;
+    }
+}
+
+/* Portal enter animation (index -> portfolio) - subtle swell */
+#portalOverlay.portal-enter.active img {
+    animation: portal-enter-swell 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes portal-enter-swell {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    40% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Reduced motion guards */
+@media (prefers-reduced-motion: reduce) {
+    #portalOverlay.active img {
+        animation: none;
+        filter: none;
+    }
+
+    body.portal-shaking {
+        animation: none;
+    }
+
+    #portalOverlay.portal-exit.active img,
+    #portalOverlay.portal-enter.active img {
+        animation: none;
+    }
 }
 
 h1 {
@@ -116,6 +242,272 @@ a {
     align-content: flex-start;
     z-index: -2;
     pointer-events: none;
+}
+
+/* Moisture sheen - subtle moving gradient overlay */
+#wall::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg,
+            transparent 0%,
+            rgba(45, 90, 61, 0.03) 25%,
+            transparent 50%,
+            rgba(45, 90, 61, 0.02) 75%,
+            transparent 100%);
+    animation: moisture-sheen 25s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes moisture-sheen {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-120vh);
+    }
+}
+
+/* Ambient spores rising from holes/ruin */
+#wall::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 15% 85%, rgba(76, 120, 85, 0.15) 1px, transparent 1px),
+        radial-gradient(circle at 35% 92%, rgba(76, 120, 85, 0.1) 1px, transparent 1px),
+        radial-gradient(circle at 60% 78%, rgba(76, 120, 85, 0.12) 1px, transparent 1px),
+        radial-gradient(circle at 85% 88%, rgba(76, 120, 85, 0.08) 1px, transparent 1px),
+        radial-gradient(circle at 45% 95%, rgba(76, 120, 85, 0.1) 1px, transparent 1px),
+        radial-gradient(circle at 75% 82%, rgba(76, 120, 85, 0.15) 1px, transparent 1px);
+    background-size:
+        200px 200px,
+        180px 180px,
+        220px 220px,
+        160px 160px,
+        190px 190px,
+        210px 210px;
+    animation: spore-rise 20s linear infinite;
+    pointer-events: none;
+    opacity: 0.4;
+    z-index: 1;
+}
+
+@keyframes spore-rise {
+    0% {
+        transform: translateY(0);
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateY(-120vh);
+        opacity: 0;
+    }
+}
+
+/* ===== Ruin Brick Animations ===== */
+.brick.ruin {
+    transition: opacity 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Moss pulse - subtle breathing effect (always runs, respects reduced-motion for vibration only) */
+.brick.ruin {
+    animation: moss-pulse 10s ease-in-out infinite alternate;
+}
+
+@keyframes moss-pulse {
+    0% {
+        opacity: 0.35;
+        filter: grayscale(0.6);
+    }
+
+    100% {
+        opacity: 0.5;
+        filter: grayscale(0.4);
+    }
+}
+
+/* Crack glow on hover - subtle green glow at edges */
+.brick.ruin:hover {
+    opacity: 0.6 !important;
+    filter: grayscale(0.3) !important;
+    box-shadow:
+        0 0 8px rgba(45, 90, 61, 0.6),
+        0 0 16px rgba(45, 90, 61, 0.3),
+        inset 0 0 8px rgba(45, 90, 61, 0.2);
+    z-index: 10;
+}
+
+/* Spore particles emanating from ruin bricks on hover */
+.brick.ruin::after {
+    content: "";
+    position: absolute;
+    inset: -20px;
+    background-image:
+        radial-gradient(circle at 50% 100%, rgba(76, 120, 85, 0.2) 2px, transparent 2px),
+        radial-gradient(circle at 30% 100%, rgba(76, 120, 85, 0.15) 1px, transparent 1px),
+        radial-gradient(circle at 70% 100%, rgba(76, 120, 85, 0.15) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0;
+    animation: brick-spores 3s ease-out forwards;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes brick-spores {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(1);
+    }
+
+    30% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-40px) scale(1.5);
+    }
+}
+
+/* Trigger spores on hover */
+.brick.ruin:hover::after {
+    animation: brick-spores 2s ease-out forwards;
+}
+
+/* Subtle vibration on ruin bricks - guarded by reduced-motion */
+@media (prefers-reduced-motion: no-preference) {
+    .brick.ruin {
+        animation: moss-pulse 10s ease-in-out infinite alternate, ruin-micro-vibrate 8s ease-in-out infinite;
+    }
+}
+
+@keyframes ruin-micro-vibrate {
+
+    0%,
+    100% {
+        transform: rotate(var(--rot, 0deg)) translateX(0);
+    }
+
+    25% {
+        transform: rotate(var(--rot, 0deg)) translateX(-0.5px);
+    }
+
+    75% {
+        transform: rotate(var(--rot, 0deg)) translateX(0.5px);
+    }
+}
+
+/* ===== Reduced Motion Guards (only for vibration & portal shake) ===== */
+@media (prefers-reduced-motion: reduce) {
+    .brick.ruin {
+        animation: moss-pulse 10s ease-in-out infinite alternate;
+        /* keep ambient pulse */
+    }
+
+    #portalOverlay.active img {
+        animation: none;
+        filter: none;
+    }
+
+    body.portal-shaking {
+        animation: none;
+    }
+
+    #portalOverlay.portal-exit.active img,
+    #portalOverlay.portal-enter.active img {
+        animation: none;
+    }
+
+    .scroll-photo {
+        transition: none;
+    }
+
+    .scroll-photo:hover {
+        transform: none;
+        filter: none;
+        box-shadow: none;
+    }
+
+    .title-ribbon-tail-left,
+    .title-ribbon-tail-right {
+        animation: none;
+    }
+}
+
+/* ===== Scroll Photo Frame — Dungeon Vibe ===== */
+.scroll-photo {
+    position: relative;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+}
+
+/* Parchment texture overlay */
+.scroll-photo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        repeating-linear-gradient(0deg,
+            transparent,
+            transparent 1px,
+            rgba(0, 0, 0, 0.02) 1px,
+            rgba(0, 0, 0, 0.02) 2px),
+        repeating-linear-gradient(90deg,
+            transparent,
+            transparent 1px,
+            rgba(0, 0, 0, 0.015) 1px,
+            rgba(0, 0, 0, 0.015) 2px);
+    background-size: 4px 4px;
+    pointer-events: none;
+    opacity: 0.6;
+    z-index: 2;
+    border-radius: 50%;
+}
+
+/* Photo vignette — inner shadow + subtle green tint */
+.scroll-photo svg {
+    filter:
+        drop-shadow(0 0 30px rgba(0, 0, 0, 0.6)) drop-shadow(inset 0 0 40px rgba(0, 0, 0, 0.4));
+}
+
+/* Subtle green tint overlay on photo */
+.scroll-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 60%, rgba(45, 90, 61, 0.15) 100%);
+    pointer-events: none;
+    z-index: 3;
+    border-radius: 50%;
+}
+
+/* Hover whisper — subtle scale, rotate, green glow */
+@media (prefers-reduced-motion: no-preference) {
+    .scroll-photo {
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+            filter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+            box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .scroll-photo:hover {
+        transform: scale(1.025) rotate(-0.3deg);
+        filter:
+            drop-shadow(0 0 40px rgba(45, 90, 61, 0.4)) drop-shadow(0 15px 35px rgba(0, 0, 0, 0.5)) drop-shadow(inset 0 0 50px rgba(0, 0, 0, 0.5));
+        box-shadow: 0 0 60px rgba(45, 90, 61, 0.25);
+    }
+}
+
+/* Iron bracket hover glow */
+.scroll-photo:hover g[filter="url(#bracketShadow)"] path {
+    stroke: #5d4037;
+    filter: drop-shadow(0 0 4px rgba(93, 64, 55, 0.8));
 }
 
 /* ===== Navbar ===== */
@@ -725,6 +1117,39 @@ a {
     margin-left: -2px;
 }
 
+/* ===== Ribbon Sway Animation (subtle, respects reduced-motion) ===== */
+@media (prefers-reduced-motion: no-preference) {
+    .title-ribbon-tail-left {
+        animation: ribbon-sway-left 6s ease-in-out infinite alternate;
+        transform-origin: right center;
+    }
+
+    .title-ribbon-tail-right {
+        animation: ribbon-sway-right 6.5s ease-in-out infinite alternate;
+        transform-origin: left center;
+    }
+}
+
+@keyframes ribbon-sway-left {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+
+    100% {
+        transform: translateX(-4px) rotate(-1deg);
+    }
+}
+
+@keyframes ribbon-sway-right {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+
+    100% {
+        transform: translateX(4px) rotate(1deg);
+    }
+}
+
 /* Hilang total di tablet/HP */
 @media (max-width: 768px) {
 
@@ -1171,13 +1596,21 @@ a {
 }
 
 /* transisi custom biar lebih halus & "berat" seperti kertas/perkamen */
+/* ease-out-expo feel: cubic-bezier(0.16, 1, 0.3, 1) - smooth start, gentle end */
 [data-aos="fade-up"],
 [data-aos="fade-down"],
 [data-aos="fade-right"],
 [data-aos="fade-left"] {
-    transition-timing-function: cubic-bezier(0.22, 0.68, 0, 1) !important;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
+/* zoom-in dengan slight overshoot untuk feel "kertas nge-pop" */
 [data-aos="zoom-in"] {
     transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+/* ribbon wrapper specific: fade-down dengan delay halus */
+.title-ribbon-wrapper[data-aos="fade-down"] {
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+    transition-duration: 1000ms !important;
 }

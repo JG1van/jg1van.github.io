@@ -144,15 +144,95 @@
         outline-offset: 6px;
       }
 
+      /* ===== Warna tambahan untuk tekstur reruntuhan ===== */
+      :root {
+        --plaster-light: #6b6b6b;
+        --plaster-dark: #3a3a3a;
+        --crack-dark: #1a1a1a;
+        --moss-dark: #1a3a2e;
+        --moss-mid: #285a48;
+        --rust-dark: #4a2a1a;
+        --rust-mid: #8b4513;
+      }
+
       .stone-arch {
         position: absolute;
         inset: -20px;
         border-radius: 240px 240px 10px 10px;
-        background: repeating-conic-gradient(
-          from 0deg,
-          var(--stone-base) 0deg 15deg,
-          var(--stone-light) 15deg 30deg
-        );
+        /* Layered texture: base stone + plaster patches + cracks + moss */
+        background:
+          /* Base stone conic */
+          repeating-conic-gradient(
+            from 0deg,
+            var(--stone-base) 0deg 15deg,
+            var(--stone-light) 15deg 30deg
+          ),
+          /* Plaster patches - areas that look repaired/smoothed */
+          radial-gradient(
+              ellipse at 20% 30%,
+              var(--plaster-light) 0%,
+              transparent 40%
+            ),
+          radial-gradient(
+            ellipse at 70% 25%,
+            var(--plaster-dark) 0%,
+            transparent 35%
+          ),
+          radial-gradient(
+            ellipse at 40% 70%,
+            var(--plaster-light) 0%,
+            transparent 30%
+          ),
+          radial-gradient(
+            ellipse at 85% 60%,
+            var(--plaster-dark) 0%,
+            transparent 25%
+          ),
+          /* Crack lines - dark veins */
+          linear-gradient(
+              90deg,
+              transparent 45%,
+              var(--crack-dark) 45.5%,
+              var(--crack-dark) 46%,
+              transparent 46.5%
+            ),
+          linear-gradient(
+            45deg,
+            transparent 48%,
+            var(--crack-dark) 48.2%,
+            var(--crack-dark) 48.7%,
+            transparent 49%
+          ),
+          linear-gradient(
+            -30deg,
+            transparent 50%,
+            var(--crack-dark) 50.3%,
+            var(--crack-dark) 50.8%,
+            transparent 51.5%
+          ),
+          /* Moss stains - greenish in recesses */
+          radial-gradient(
+              ellipse at 15% 80%,
+              var(--moss-dark) 0%,
+              transparent 25%
+            ),
+          radial-gradient(
+            ellipse at 90% 85%,
+            var(--moss-mid) 0%,
+            transparent 20%
+          );
+        background-size:
+          auto,
+          200px 150px,
+          180px 140px,
+          160px 120px,
+          220px 160px,
+          100% 100%,
+          150% 150%,
+          120% 120%,
+          180px 140px,
+          150px 120px;
+        background-repeat: no-repeat;
         box-shadow:
           inset 0 0 30px #000,
           0 10px 30px rgba(0, 0, 0, 0.8);
@@ -178,25 +258,79 @@
         height: 100%;
         background: var(--wood-light);
         background-image:
+          /* Original wood grain */
           url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='300'><path d='M40 0 C0 75 80 225 40 300' stroke='rgba(0,0,0,0.15)' stroke-width='3' fill='none'/><path d='M90 0 C50 75 130 225 90 300' stroke='rgba(0,0,0,0.15)' stroke-width='3' fill='none'/><path d='M140 0 C100 75 180 225 140 300' stroke='rgba(0,0,0,0.15)' stroke-width='3' fill='none'/></svg>"),
+          /* Wood grain lines */
           repeating-linear-gradient(
-            90deg,
-            rgba(0, 0, 0, 0.08) 0px,
-            rgba(0, 0, 0, 0.08) 2px,
-            transparent 2px,
-            transparent 4px
-          ),
+              90deg,
+              rgba(0, 0, 0, 0.08) 0px,
+              rgba(0, 0, 0, 0.08) 2px,
+              transparent 2px,
+              transparent 4px
+            ),
+          /* Base shading */
           linear-gradient(
-            to bottom,
-            rgba(0, 0, 0, 0.5),
-            transparent,
-            rgba(0, 0, 0, 0.8)
+              to bottom,
+              rgba(0, 0, 0, 0.5),
+              transparent,
+              rgba(0, 0, 0, 0.8)
+            ),
+          /* Plaster patches on wood - repaired areas */
+          radial-gradient(
+              ellipse at 25% 30%,
+              rgba(107, 107, 107, 0.4) 0%,
+              transparent 30%
+            ),
+          radial-gradient(
+            ellipse at 75% 60%,
+            rgba(58, 58, 58, 0.35) 0%,
+            transparent 25%
+          ),
+          radial-gradient(
+            ellipse at 40% 80%,
+            rgba(107, 107, 107, 0.3) 0%,
+            transparent 20%
+          ),
+          /* Crack lines on wood */
+          linear-gradient(
+              15deg,
+              transparent 49%,
+              var(--crack-dark) 49.5%,
+              var(--crack-dark) 50%,
+              transparent 50.5%
+            ),
+          linear-gradient(
+            -25deg,
+            transparent 48%,
+            var(--crack-dark) 48.3%,
+            var(--crack-dark) 48.8%,
+            transparent 49.5%
+          ),
+          /* Moss stains at bottom/recesses */
+          radial-gradient(
+              ellipse at 30% 90%,
+              var(--moss-dark) 0%,
+              transparent 15%
+            ),
+          radial-gradient(
+            ellipse at 80% 85%,
+            var(--moss-mid) 0%,
+            transparent 12%
           );
         background-size:
           150px 300px,
           100% 100%,
-          100% 100%;
-        background-repeat: repeat, repeat, no-repeat;
+          100% 100%,
+          180px 140px,
+          160px 120px,
+          200px 150px,
+          100% 100%,
+          140% 140%,
+          120px 100px,
+          100px 80px;
+        background-repeat:
+          repeat, repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat,
+          no-repeat, no-repeat, no-repeat;
         transform-style: preserve-3d;
         transition: transform 1.5s cubic-bezier(0.25, 1, 0.5, 1);
         box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
@@ -224,12 +358,44 @@
       .metal-band {
         width: 100%;
         height: 40px;
-        background: linear-gradient(
-          to bottom,
-          var(--metal-dark),
-          var(--metal),
-          var(--metal-dark)
-        );
+        background:
+          linear-gradient(
+            to bottom,
+            var(--metal-dark),
+            var(--metal),
+            var(--metal-dark)
+          ),
+          /* Rust stains */
+          radial-gradient(
+              ellipse at 10% 50%,
+              var(--rust-dark) 0%,
+              transparent 25%
+            ),
+          radial-gradient(
+            ellipse at 90% 40%,
+            var(--rust-mid) 0%,
+            transparent 20%
+          ),
+          radial-gradient(
+            ellipse at 50% 70%,
+            var(--rust-dark) 0%,
+            transparent 15%
+          ),
+          /* Pitting texture - fine noise */
+          repeating-radial-gradient(
+              circle at 30% 30%,
+              transparent 0,
+              transparent 1px,
+              rgba(0, 0, 0, 0.03) 1px,
+              rgba(0, 0, 0, 0.03) 2px
+            );
+        background-size:
+          auto,
+          80px 50px,
+          70px 45px,
+          60px 40px,
+          20px 20px;
+        background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
         position: relative;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
       }
@@ -690,14 +856,31 @@
         }
       });
       closeBtn.addEventListener("click", closeGate);
-      // Klik "Masuk" -> muncul portal, lalu pindah ke halaman portofolio
+      // Klik "Masuk" -> muncul portal (enter), lalu pindah ke halaman portofolio
       enterBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         const portalOverlay = document.getElementById("portalOverlay");
-        portalOverlay.classList.add("active");
+        portalOverlay.classList.add("active", "portal-enter");
+
+        // Screen shake effect
+        document.body.classList.add("portal-shaking");
+        setTimeout(() => document.body.classList.remove("portal-shaking"), 150);
+
         setTimeout(() => {
+          portalOverlay.classList.remove("active", "portal-enter");
           window.location.href = PORTFOLIO_URL;
         }, 900); // sesuaikan dengan durasi animasi portal
+      });
+
+      // Reset portal state on page show (back button / bfcache)
+      window.addEventListener("pageshow", (e) => {
+        const portalOverlay = document.getElementById("portalOverlay");
+        if (portalOverlay)
+          portalOverlay.classList.remove(
+            "active",
+            "portal-enter",
+            "portal-exit",
+          );
       });
 
       // Cegah klik di dalam kartu ikut membuka/menutup gerbang
@@ -717,47 +900,90 @@
           "var(--brick-5)",
         ];
 
+        // ===== Unified Wall Generator =====
+        // 70% solid, 15% hole (skip), 15% ruin (clip-path/opacity)
         function buildWall() {
-          wall.innerHTML = ""; // reset biar tidak menumpuk saat resize
+          wall.innerHTML = "";
 
-          // Luas area yang perlu ditutup (120vw x 120vh sesuai CSS #wall)
           const wallWidth = window.innerWidth * 1.2;
           const wallHeight = window.innerHeight * 1.2;
           const wallArea = wallWidth * wallHeight;
 
-          // Rata-rata luas 1 bata (lebar ~55px, tinggi ~31px, + margin)
-          const avgBrickArea = 60 * 34;
+          // Approximate brick size with margin
+          const avgBrickWidth = 55;
+          const avgBrickHeight = 34;
+          const avgBrickArea = avgBrickWidth * avgBrickHeight;
 
-          // Buffer 1.4x biar random size tidak menyisakan celah
-          const totalBricks = Math.ceil((wallArea / avgBrickArea) * 1.4);
+          // Grid-based layout for consistent hole/ruin distribution
+          const cols = Math.ceil(wallWidth / avgBrickWidth) + 2;
+          const rows = Math.ceil(wallHeight / avgBrickHeight) + 2;
 
-          for (let i = 0; i < totalBricks; i++) {
-            const brick = document.createElement("div");
-            brick.classList.add("brick");
+          // Deterministic pseudo-random per cell (seeded by row/col)
+          function cellRandom(row, col, salt) {
+            let x = Math.sin(row * 12.9898 + col * 78.233 + salt) * 43758.5453;
+            return x - Math.floor(x);
+          }
 
-            const width = Math.floor(Math.random() * 30) + 40;
-            const height = Math.floor(Math.random() * 6) + 28;
-            brick.style.width = `${width}px`;
-            brick.style.height = `${height}px`;
+          for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+              const rand = cellRandom(row, col, 0);
 
-            brick.style.backgroundColor =
-              colors[Math.floor(Math.random() * colors.length)];
+              // 15% hole - skip this cell entirely (gap kosong)
+              if (rand < 0.15) continue;
 
-            const b1 = Math.floor(Math.random() * 6) + 1;
-            const b2 = Math.floor(Math.random() * 6) + 1;
-            const b3 = Math.floor(Math.random() * 6) + 1;
-            const b4 = Math.floor(Math.random() * 6) + 1;
-            brick.style.borderRadius =
-              b1 + "px " + b2 + "px " + b3 + "px " + b4 + "px";
+              const brick = document.createElement("div");
+              brick.classList.add("brick");
 
-            const rotation = (Math.random() * 2 - 1).toFixed(1);
-            brick.style.transform = "rotate(" + rotation + "deg)";
+              // Vary size slightly
+              const width = Math.floor(30 * cellRandom(row, col, 1)) + 40;
+              const height = Math.floor(6 * cellRandom(row, col, 2)) + 28;
+              brick.style.width = `${width}px`;
+              brick.style.height = `${height}px`;
 
-            const marginX = Math.floor(Math.random() * 3) + 1;
-            const marginY = Math.floor(Math.random() * 3) + 1;
-            brick.style.margin = marginY + "px " + marginX + "px";
+              // Base color
+              const colorIdx = Math.floor(
+                cellRandom(row, col, 3) * colors.length,
+              );
+              brick.style.backgroundColor = colors[colorIdx];
 
-            wall.appendChild(brick);
+              // 15% ruin bricks - irregular clip-path, lower opacity
+              const ruinRand = cellRandom(row, col, 4);
+              if (ruinRand < 0.15) {
+                brick.classList.add("ruin");
+                brick.dataset.ruin = "true";
+                // Ruin brick: irregular polygon clip-path + reduced opacity
+                const pts = [];
+                // Generate 8-point irregular polygon around center
+                for (let p = 0; p < 8; p++) {
+                  const angle = (p / 8) * Math.PI * 2;
+                  const radiusVariation =
+                    0.4 + 0.6 * cellRandom(row, col, 5 + p);
+                  const rx = 0.5 + (radiusVariation - 0.5) * Math.cos(angle);
+                  const ry = 0.5 + (radiusVariation - 0.5) * Math.sin(angle);
+                  pts.push(`${rx * 100}% ${ry * 100}%`);
+                }
+                brick.style.clipPath = `polygon(${pts.join(", ")})`;
+                brick.style.opacity = "0.35";
+                brick.style.filter = "grayscale(0.6)";
+              } else {
+                // Normal brick: random border-radius
+                const b1 = Math.floor(cellRandom(row, col, 13) * 6) + 1;
+                const b2 = Math.floor(cellRandom(row, col, 14) * 6) + 1;
+                const b3 = Math.floor(cellRandom(row, col, 15) * 6) + 1;
+                const b4 = Math.floor(cellRandom(row, col, 16) * 6) + 1;
+                brick.style.borderRadius =
+                  b1 + "px " + b2 + "px " + b3 + "px " + b4 + "px";
+              }
+
+              const rotation = (cellRandom(row, col, 17) * 2 - 1).toFixed(1);
+              brick.style.transform = "rotate(" + rotation + "deg)";
+
+              const marginX = Math.floor(cellRandom(row, col, 18) * 3) + 1;
+              const marginY = Math.floor(cellRandom(row, col, 19) * 3) + 1;
+              brick.style.margin = marginY + "px " + marginX + "px";
+
+              wall.appendChild(brick);
+            }
           }
         }
 
