@@ -35,6 +35,15 @@
     <!-- Brick Wall Background -->
     <div id="wall"></div>
 
+    <!-- Dungeon Ambience -->
+    <div class="dungeon-vignette" aria-hidden="true"></div>
+    <div class="dungeon-fog" aria-hidden="true">
+      <div class="dungeon-fog__blob"></div>
+      <div class="dungeon-fog__blob"></div>
+      <div class="dungeon-fog__blob"></div>
+    </div>
+    <div class="dungeon-eyes" id="dungeonEyes" aria-hidden="true"></div>
+
     <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
       <div class="container">
@@ -128,7 +137,7 @@
         <!-- Teks & Gambar -->
         <div class="row align-items-center g-2">
           <div
-            class="col-12 col-md-7 d-flex flex-column gap-3 justify-content-center"
+            class="col-12 col-md-7 d-flex flex-column gap-3 justify-content-center order-2 order-md-2"
           >
             <!-- Subtitle -->
             <div
@@ -301,7 +310,9 @@
             </div>
           </div>
 
-          <div class="col-12 col-md-5 d-flex justify-content-center">
+          <div
+            class="col-12 col-md-5 d-flex justify-content-center order-1 order-md-1"
+          >
             <div
               class="scroll-photo"
               data-aos="zoom-in"
@@ -352,31 +363,19 @@
                   >
                     <stop
                       offset="0%"
-                      style="stop-color: #3a2a1a; stop-opacity: 1"
-                    />
-                    <stop
-                      offset="15%"
-                      style="stop-color: #5d4037; stop-opacity: 1"
+                      style="stop-color: #408a71; stop-opacity: 1"
                     />
                     <stop
                       offset="30%"
                       style="stop-color: #d2b48c; stop-opacity: 1"
                     />
                     <stop
-                      offset="50%"
+                      offset="60%"
                       style="stop-color: #408a71; stop-opacity: 1"
                     />
                     <stop
-                      offset="70%"
-                      style="stop-color: #d2b48c; stop-opacity: 1"
-                    />
-                    <stop
-                      offset="85%"
-                      style="stop-color: #5d4037; stop-opacity: 1"
-                    />
-                    <stop
                       offset="100%"
-                      style="stop-color: #3a2a1a; stop-opacity: 1"
+                      style="stop-color: #5d4037; stop-opacity: 1"
                     />
                   </linearGradient>
                   <clipPath id="clipOval">
@@ -404,25 +403,6 @@
                   <line x1="130" y1="370" x2="370" y2="370" />
                   <line x1="120" y1="400" x2="380" y2="400" />
                 </g>
-
-                <!-- Iron brackets at 4 corners (rusty iron) -->
-                <g stroke="#2a1a0a" stroke-width="3" fill="none" filter="url(#bracketShadow)">
-                  <!-- Top-left bracket -->
-                  <path d="M 100 60 L 100 90 M 100 60 L 130 60" stroke-linecap="round"/>
-                  <!-- Top-right bracket -->
-                  <path d="M 400 60 L 400 90 M 400 60 L 370 60" stroke-linecap="round"/>
-                  <!-- Bottom-left bracket -->
-                  <path d="M 100 440 L 100 410 M 100 440 L 130 440" stroke-linecap="round"/>
-                  <!-- Bottom-right bracket -->
-                  <path d="M 400 440 L 400 410 M 400 440 L 370 440" stroke-linecap="round"/>
-                </g>
-
-                <!-- Bracket shadow filter -->
-                <defs>
-                  <filter id="bracketShadow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="1" dy="1" stdDeviation="1" flood-color="#1a0a00" flood-opacity="0.6"/>
-                  </filter>
-                </defs>
 
                 <g>
                   <rect
@@ -581,15 +561,31 @@
       <span class="divider-line"></span>
       <span class="divider-torches-group">
         <span class="divider-torch">
-          <span class="torch-flame"></span>
+          <span class="torch-flame-wrap">
+            <span class="torch-flame torch-flame__outer"></span>
+            <span class="torch-flame torch-flame__core"></span>
+            <span class="torch-flame torch-flame__inner"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+          </span>
           <span class="torch-stick"></span>
+          <span class="torch-base"></span>
         </span>
 
         <span class="divider-number">1</span>
 
         <span class="divider-torch">
-          <span class="torch-flame"></span>
+          <span class="torch-flame-wrap">
+            <span class="torch-flame torch-flame__outer"></span>
+            <span class="torch-flame torch-flame__core"></span>
+            <span class="torch-flame torch-flame__inner"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+          </span>
           <span class="torch-stick"></span>
+          <span class="torch-base"></span>
         </span>
       </span>
 
@@ -721,15 +717,31 @@
 
       <span class="divider-torches-group">
         <span class="divider-torch">
-          <span class="torch-flame"></span>
+          <span class="torch-flame-wrap">
+            <span class="torch-flame torch-flame__outer"></span>
+            <span class="torch-flame torch-flame__core"></span>
+            <span class="torch-flame torch-flame__inner"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+          </span>
           <span class="torch-stick"></span>
+          <span class="torch-base"></span>
         </span>
 
         <span class="divider-number">2</span>
 
         <span class="divider-torch">
-          <span class="torch-flame"></span>
+          <span class="torch-flame-wrap">
+            <span class="torch-flame torch-flame__outer"></span>
+            <span class="torch-flame torch-flame__core"></span>
+            <span class="torch-flame torch-flame__inner"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+          </span>
           <span class="torch-stick"></span>
+          <span class="torch-base"></span>
         </span>
       </span>
 
@@ -898,15 +910,31 @@
       <span class="divider-line"></span>
       <span class="divider-torches-group">
         <span class="divider-torch">
-          <span class="torch-flame"></span>
+          <span class="torch-flame-wrap">
+            <span class="torch-flame torch-flame__outer"></span>
+            <span class="torch-flame torch-flame__core"></span>
+            <span class="torch-flame torch-flame__inner"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+          </span>
           <span class="torch-stick"></span>
+          <span class="torch-base"></span>
         </span>
 
         <span class="divider-number">3</span>
 
         <span class="divider-torch">
-          <span class="torch-flame"></span>
+          <span class="torch-flame-wrap">
+            <span class="torch-flame torch-flame__outer"></span>
+            <span class="torch-flame torch-flame__core"></span>
+            <span class="torch-flame torch-flame__inner"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+          </span>
           <span class="torch-stick"></span>
+          <span class="torch-base"></span>
         </span>
       </span>
       <span class="divider-line"></span>
@@ -1645,15 +1673,31 @@
       <span class="divider-line"></span>
       <span class="divider-torches-group">
         <span class="divider-torch">
-          <span class="torch-flame"></span>
+          <span class="torch-flame-wrap">
+            <span class="torch-flame torch-flame__outer"></span>
+            <span class="torch-flame torch-flame__core"></span>
+            <span class="torch-flame torch-flame__inner"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+          </span>
           <span class="torch-stick"></span>
+          <span class="torch-base"></span>
         </span>
 
         <span class="divider-number">4</span>
 
         <span class="divider-torch">
-          <span class="torch-flame"></span>
+          <span class="torch-flame-wrap">
+            <span class="torch-flame torch-flame__outer"></span>
+            <span class="torch-flame torch-flame__core"></span>
+            <span class="torch-flame torch-flame__inner"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+          </span>
           <span class="torch-stick"></span>
+          <span class="torch-base"></span>
         </span>
       </span>
 
@@ -1741,15 +1785,31 @@
       <span class="divider-line"></span>
       <span class="divider-torches-group">
         <span class="divider-torch">
-          <span class="torch-flame"></span>
+          <span class="torch-flame-wrap">
+            <span class="torch-flame torch-flame__outer"></span>
+            <span class="torch-flame torch-flame__core"></span>
+            <span class="torch-flame torch-flame__inner"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+          </span>
           <span class="torch-stick"></span>
+          <span class="torch-base"></span>
         </span>
 
         <span class="divider-number">5</span>
 
         <span class="divider-torch">
-          <span class="torch-flame"></span>
+          <span class="torch-flame-wrap">
+            <span class="torch-flame torch-flame__outer"></span>
+            <span class="torch-flame torch-flame__core"></span>
+            <span class="torch-flame torch-flame__inner"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+            <span class="torch-ember"></span>
+          </span>
           <span class="torch-stick"></span>
+          <span class="torch-base"></span>
         </span>
       </span>
       <span class="divider-line"></span>
@@ -1980,6 +2040,51 @@
         if (overlay) overlay.classList.remove("active", "portal-enter", "portal-exit");
       });
 
+      // ===== Mata mengintip - sekali saja per sesi =====
+      (function () {
+        const container = document.getElementById("dungeonEyes");
+        if (!container) return;
+        if (sessionStorage.getItem("dungeonEyesShown")) return;
+
+        const count = 4;
+        const eyes = [];
+        for (let i = 0; i < count; i++) {
+          const eye = document.createElement("div");
+          eye.className = "dungeon-eye";
+          const x = 10 + Math.random() * 80;
+          const y = 15 + Math.random() * 60;
+          eye.style.left = x + "%";
+          eye.style.top = y + "%";
+          const pupil = document.createElement("span");
+          pupil.className = "dungeon-eye-pupil";
+          eye.appendChild(pupil);
+          container.appendChild(eye);
+          eyes.push(eye);
+        }
+
+        const wall = document.getElementById("wall");
+        if (!wall) return;
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              eyes.forEach((eye, i) => {
+                setTimeout(() => eye.classList.add("visible"), i * 350);
+              });
+              setTimeout(() => {
+                eyes.forEach((eye, i) => {
+                  setTimeout(() => eye.classList.remove("visible"), i * 200);
+                });
+              }, 3000);
+              sessionStorage.setItem("dungeonEyesShown", "true");
+              obs.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.1 },
+        );
+        observer.observe(wall);
+      })();
+
       // Brick Wall Generator
       (function () {
         const wall = document.getElementById("wall");
@@ -1999,16 +2104,16 @@
         function buildWall() {
           wall.innerHTML = "";
 
-          const wallWidth = window.innerWidth * 1.2;
-          const wallHeight = window.innerHeight * 1.2;
-          const wallArea = wallWidth * wallHeight;
-
           const avgBrickWidth = 55;
           const avgBrickHeight = 34;
-          const avgBrickArea = avgBrickWidth * avgBrickHeight;
 
-          const cols = Math.ceil(wallWidth / avgBrickWidth) + 2;
-          const rows = Math.ceil(wallHeight / avgBrickHeight) + 2;
+          // Cap to visible area + small buffer only
+          const maxCols = Math.ceil(window.innerWidth / avgBrickWidth) + 4;
+          const maxRows = Math.ceil(window.innerHeight / avgBrickHeight) + 4;
+          const cols = maxCols;
+          const rows = maxRows;
+
+          const fragment = document.createDocumentFragment();
 
           function cellRandom(row, col, salt) {
             let x = Math.sin(row * 12.9898 + col * 78.233 + salt) * 43758.5453;
@@ -2065,14 +2170,16 @@
               const marginY = Math.floor(cellRandom(row, col, 19) * 3) + 1;
               brick.style.margin = marginY + "px " + marginX + "px";
 
-              wall.appendChild(brick);
+              fragment.appendChild(brick);
             }
           }
+
+          wall.appendChild(fragment);
         }
 
         buildWall();
 
-        // Bangun ulang tembok saat ukuran layar berubah (misal buka di tab lain / resize window)
+        // Bangun ulang tembok saat ukuran layar berubah (debounced)
         let resizeTimer;
         window.addEventListener("resize", () => {
           clearTimeout(resizeTimer);
@@ -2131,8 +2238,8 @@
 
       // Init AOS
       AOS.init({
-        once: false, // animasi muncul & hilang lagi tiap scroll (naik/turun)
-        mirror: true, // elemen animasi ulang saat discroll ke atas
+        once: true,
+        mirror: false,
         duration: 800,
         easing: "ease-out-cubic",
         offset: 80,

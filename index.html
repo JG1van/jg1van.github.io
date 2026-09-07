@@ -657,6 +657,150 @@
         }
       }
 
+      /* ---------------- DUNGEON AMBIENCE ---------------- */
+      .dungeon-vignette {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 100;
+        background: radial-gradient(
+          ellipse at center,
+          transparent 40%,
+          rgba(0, 0, 0, 0.15) 60%,
+          rgba(0, 0, 0, 0.45) 85%,
+          rgba(0, 0, 0, 0.85) 100%
+        );
+      }
+
+      .dungeon-fog {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 35vh;
+        pointer-events: none;
+        z-index: 90;
+        overflow: hidden;
+      }
+
+      .dungeon-fog__blob {
+        position: absolute;
+        bottom: -10vw;
+        border-radius: 50%;
+        filter: blur(70px);
+        opacity: 0.2;
+        will-change: transform;
+        animation: fog-drift 30s ease-in-out infinite alternate;
+      }
+
+      .dungeon-fog__blob:nth-child(1) {
+        width: 60vw;
+        height: 60vw;
+        left: -10%;
+        background: radial-gradient(
+          circle,
+          var(--color-green-mid),
+          transparent 70%
+        );
+        animation-duration: 35s;
+      }
+
+      .dungeon-fog__blob:nth-child(2) {
+        width: 50vw;
+        height: 50vw;
+        left: 30%;
+        background: radial-gradient(
+          circle,
+          var(--color-green-dark),
+          transparent 70%
+        );
+        animation-duration: 42s;
+        animation-delay: -12s;
+      }
+
+      .dungeon-fog__blob:nth-child(3) {
+        width: 55vw;
+        height: 55vw;
+        left: 60%;
+        background: radial-gradient(
+          circle,
+          var(--color-green-mid),
+          transparent 70%
+        );
+        animation-duration: 38s;
+        animation-delay: -20s;
+      }
+
+      @keyframes fog-drift {
+        0% {
+          transform: translateX(0) scale(1);
+          opacity: 0.15;
+        }
+        50% {
+          transform: translateX(12vw) scale(1.08);
+          opacity: 0.25;
+        }
+        100% {
+          transform: translateX(-5vw) scale(0.95);
+          opacity: 0.18;
+        }
+      }
+
+      .dungeon-eyes {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 95;
+      }
+
+      .dungeon-eye {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--color-green-light);
+        box-shadow:
+          0 0 8px var(--color-green-light),
+          0 0 16px var(--color-green-mid);
+        opacity: 0;
+        transform: scale(0.4);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+
+      .dungeon-eye.visible {
+        opacity: 0.6;
+        transform: scale(1);
+      }
+
+      .dungeon-eye .dungeon-eye-pupil {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--color-dark);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .dungeon-fog__blob {
+          animation: none;
+          opacity: 0.1;
+        }
+
+        .dungeon-eye {
+          transition: none;
+        }
+
+        .dungeon-eye.visible {
+          opacity: 0.4;
+          transform: scale(1);
+        }
+      }
+
       /* ---------------- FADE OUT SAAT PINDAH HALAMAN ---------------- */
       .page-fade {
         position: fixed;
@@ -736,6 +880,13 @@
 
   <body>
     <div id="wall"></div>
+    <div class="dungeon-vignette" aria-hidden="true"></div>
+    <div class="dungeon-fog" aria-hidden="true">
+      <div class="dungeon-fog__blob"></div>
+      <div class="dungeon-fog__blob"></div>
+      <div class="dungeon-fog__blob"></div>
+    </div>
+    <div class="dungeon-eyes" id="dungeonEyes" aria-hidden="true"></div>
     <div class="page-fade" id="pageFade"></div>
     <div id="portalOverlay">
       <img src="assets/Portal.svg" alt="Portal" id="portalImg" />
@@ -887,6 +1038,51 @@
       document.querySelectorAll(".scroll-paper").forEach((el) => {
         el.addEventListener("click", (e) => e.stopPropagation());
       });
+
+      // ===== Mata mengintip - sekali saja per sesi =====
+      (function () {
+        const container = document.getElementById("dungeonEyes");
+        if (!container) return;
+        if (sessionStorage.getItem("dungeonEyesShown")) return;
+
+        const count = 4;
+        const eyes = [];
+        for (let i = 0; i < count; i++) {
+          const eye = document.createElement("div");
+          eye.className = "dungeon-eye";
+          const x = 10 + Math.random() * 80;
+          const y = 15 + Math.random() * 60;
+          eye.style.left = x + "%";
+          eye.style.top = y + "%";
+          const pupil = document.createElement("span");
+          pupil.className = "dungeon-eye-pupil";
+          eye.appendChild(pupil);
+          container.appendChild(eye);
+          eyes.push(eye);
+        }
+
+        const wall = document.getElementById("wall");
+        if (!wall) return;
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              eyes.forEach((eye, i) => {
+                setTimeout(() => eye.classList.add("visible"), i * 350);
+              });
+              setTimeout(() => {
+                eyes.forEach((eye, i) => {
+                  setTimeout(() => eye.classList.remove("visible"), i * 200);
+                });
+              }, 3000);
+              sessionStorage.setItem("dungeonEyesShown", "true");
+              obs.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.1 },
+        );
+        observer.observe(wall);
+      })();
     </script>
 
     <script>
@@ -905,18 +1101,16 @@
         function buildWall() {
           wall.innerHTML = "";
 
-          const wallWidth = window.innerWidth * 1.2;
-          const wallHeight = window.innerHeight * 1.2;
-          const wallArea = wallWidth * wallHeight;
-
-          // Approximate brick size with margin
           const avgBrickWidth = 55;
           const avgBrickHeight = 34;
-          const avgBrickArea = avgBrickWidth * avgBrickHeight;
 
-          // Grid-based layout for consistent hole/ruin distribution
-          const cols = Math.ceil(wallWidth / avgBrickWidth) + 2;
-          const rows = Math.ceil(wallHeight / avgBrickHeight) + 2;
+          // Cap to visible area + small buffer only
+          const maxCols = Math.ceil(window.innerWidth / avgBrickWidth) + 4;
+          const maxRows = Math.ceil(window.innerHeight / avgBrickHeight) + 4;
+          const cols = maxCols;
+          const rows = maxRows;
+
+          const fragment = document.createDocumentFragment();
 
           // Deterministic pseudo-random per cell (seeded by row/col)
           function cellRandom(row, col, salt) {
@@ -982,14 +1176,16 @@
               const marginY = Math.floor(cellRandom(row, col, 19) * 3) + 1;
               brick.style.margin = marginY + "px " + marginX + "px";
 
-              wall.appendChild(brick);
+              fragment.appendChild(brick);
             }
           }
+
+          wall.appendChild(fragment);
         }
 
         buildWall();
 
-        // Bangun ulang tembok saat ukuran layar berubah (misal buka di tab lain / resize window)
+        // Bangun ulang tembok saat ukuran layar berubah (debounced)
         let resizeTimer;
         window.addEventListener("resize", () => {
           clearTimeout(resizeTimer);
