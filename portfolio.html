@@ -32,11 +32,6 @@
     <div id="portalOverlay">
       <img src="assets/Portal.svg" alt="Portal" id="portalImg" />
     </div>
-    <!-- Brick Wall Background -->
-    <div id="wall"></div>
-
-    <!-- Dungeon Ambience -->
-    <div class="dungeon-vignette" aria-hidden="true"></div>
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
@@ -112,7 +107,6 @@
 
     <!-- Hero Section -->
     <section id="hero" class="hero d-flex align-items-center pt-5">
-      <div class="hero-pattern" aria-hidden="true"></div>
       <div class="container position-relative">
         <!-- Ribbon full width -->
         <div class="row mb-3">
@@ -175,11 +169,14 @@
               data-aos-delay="250"
             >
               <p class="mb-0 opacity-90">
-                "Halo, perkenalkan saya Jonathan Gianivan Sulestono, baru lulus
-                dari Program Studi Sistem Informasi. Saya pernah mengerjakan
-                beberapa proyek, mulai dari front-end hingga back-end untuk web,
-                serta merancang UI/UX. Senang belajar hal baru, siap menghadapi
-                tantangan, dan berkontribusi nyata di industri teknologi."
+                "Perkenalkan, saya Jonathan Gianivan Sulestono. Saya baru
+                menyelesaikan studi jurusan Sistem Informasi pada bulan Agustus
+                2026. Saat ini saya ingin mendapatkan pengalaman kerja serta
+                mengembangkan kemampuan-kemampuan saya di dunia profesional, dan
+                saya yakin dapat memberikan kontribusi dengan baik. Saya
+                merupakan pribadi yang disiplin, mampu bekerja secara individu
+                maupun dalam tim, serta memiliki kemauan belajar yang tinggi dan
+                antusias untuk berkembang serta memberikan kontribusi terbaik."
               </p>
             </div>
 
@@ -633,7 +630,7 @@
           </div>
 
           <div class="col-12 col-md-6">
-            <div class="row g-3" id="skills">
+            <div class="row g-4" id="skills">
               <div
                 class="col-6"
                 data-aos="fade-up"
@@ -659,7 +656,6 @@
                 <div class="skills-list d-flex flex-wrap gap-2">
                   <span class="badge rounded-2 px-3 py-2">PHP</span>
                   <span class="badge rounded-2 px-3 py-2">Laravel</span>
-                  <span class="badge rounded-2 px-3 py-2">Java</span>
                 </div>
               </div>
 
@@ -700,7 +696,6 @@
                   <span class="badge rounded-2 px-3 py-2">n8n</span>
                   <span class="badge rounded-2 px-3 py-2">GitHub</span>
                   <span class="badge rounded-2 px-3 py-2">VS Code</span>
-                  <span class="badge rounded-2 px-3 py-2">NetBeans</span>
                 </div>
               </div>
             </div>
@@ -903,7 +898,7 @@
       </div>
     </section>
 
-    <!-- Sertifikasi & Pelatihan Section -->
+    <!-- Sertifikasi Section -->
     <section id="certifications" class="section py-5">
       <div class="container">
         <div
@@ -913,11 +908,11 @@
         >
           <div class="title-ribbon-wrapper">
             <div class="title-ribbon-tail-left"></div>
-            <h1 class="title-ribbon-main fs-3 mb-0">Sertifikasi & Pelatihan</h1>
+            <h1 class="title-ribbon-main fs-3 mb-0">Sertifikasi</h1>
             <div class="title-ribbon-tail-right"></div>
           </div>
         </div>
-        <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-4 mt-3">
+        <div class="row g-4 row-cols-2 row-cols-md-3 row-cols-lg-4 mt-3">
           <!-- Card 1: Seminar Data Server -->
           <div
             class="col"
@@ -1126,8 +1121,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-4 mt-3">
           <!-- Card 5: Data Engineering Professional Certification -->
           <div
             class="col"
@@ -1419,7 +1412,7 @@
         >
           Laravel
         </h3>
-        <div class="row g-3 mb-5">
+        <div class="row g-4 mb-5">
           <div
             class="col-6 col-md-3"
             data-aos="fade-up"
@@ -1700,7 +1693,7 @@
         >
           HTML
         </h3>
-        <div class="row g-3 mb-5">
+        <div class="row g-4 mb-5">
           <div
             class="col-6 col-md-3"
             data-aos="fade-up"
@@ -1888,7 +1881,7 @@
         >
           Figma
         </h3>
-        <div class="row g-3">
+        <div class="row g-4">
           <div
             class="col-6 col-md-3"
             data-aos="fade-up"
@@ -2480,111 +2473,6 @@
         if (overlay)
           overlay.classList.remove("active", "portal-enter", "portal-exit");
       });
-
-      // Brick Wall Generator
-      (function () {
-        const wall = document.getElementById("wall");
-        if (!wall) return;
-
-        // Color palette matching index.html CSS variables
-        const colors = [
-          "var(--brick-1)",
-          "var(--brick-2)",
-          "var(--brick-3)",
-          "var(--brick-4)",
-          "var(--brick-5)",
-        ];
-
-        // ===== Unified Wall Generator (same as index.html) =====
-        // 70% solid, 15% hole (skip), 15% ruin (clip-path/opacity)
-        function buildWall() {
-          wall.innerHTML = "";
-
-          const avgBrickWidth = 55;
-          const avgBrickHeight = 34;
-
-          // Cap to visible area + small buffer only
-          const maxCols = Math.ceil(window.innerWidth / avgBrickWidth) + 4;
-          const maxRows = Math.ceil(window.innerHeight / avgBrickHeight) + 4;
-          const cols = maxCols;
-          const rows = maxRows;
-
-          const fragment = document.createDocumentFragment();
-
-          function cellRandom(row, col, salt) {
-            let x = Math.sin(row * 12.9898 + col * 78.233 + salt) * 43758.5453;
-            return x - Math.floor(x);
-          }
-
-          for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-              const rand = cellRandom(row, col, 0);
-
-              // 15% hole - skip this cell entirely (gap kosong)
-              if (rand < 0.15) continue;
-
-              const brick = document.createElement("div");
-              brick.classList.add("brick");
-
-              const width = Math.floor(30 * cellRandom(row, col, 1)) + 40;
-              const height = Math.floor(6 * cellRandom(row, col, 2)) + 28;
-              brick.style.width = `${width}px`;
-              brick.style.height = `${height}px`;
-
-              const colorIdx = Math.floor(
-                cellRandom(row, col, 3) * colors.length,
-              );
-              brick.style.backgroundColor = colors[colorIdx];
-
-              // 15% ruin bricks
-              const ruinRand = cellRandom(row, col, 4);
-              if (ruinRand < 0.15) {
-                brick.classList.add("ruin");
-                brick.dataset.ruin = "true";
-                const pts = [];
-                for (let p = 0; p < 8; p++) {
-                  const angle = (p / 8) * Math.PI * 2;
-                  const radiusVariation =
-                    0.4 + 0.6 * cellRandom(row, col, 5 + p);
-                  const rx = 0.5 + (radiusVariation - 0.5) * Math.cos(angle);
-                  const ry = 0.5 + (radiusVariation - 0.5) * Math.sin(angle);
-                  pts.push(`${rx * 100}% ${ry * 100}%`);
-                }
-                brick.style.clipPath = `polygon(${pts.join(", ")})`;
-                brick.style.opacity = "0.35";
-                brick.style.filter = "grayscale(0.6)";
-              } else {
-                const b1 = Math.floor(cellRandom(row, col, 13) * 6) + 1;
-                const b2 = Math.floor(cellRandom(row, col, 14) * 6) + 1;
-                const b3 = Math.floor(cellRandom(row, col, 15) * 6) + 1;
-                const b4 = Math.floor(cellRandom(row, col, 16) * 6) + 1;
-                brick.style.borderRadius =
-                  b1 + "px " + b2 + "px " + b3 + "px " + b4 + "px";
-              }
-
-              const rotation = (cellRandom(row, col, 17) * 2 - 1).toFixed(1);
-              brick.style.transform = "rotate(" + rotation + "deg)";
-
-              const marginX = Math.floor(cellRandom(row, col, 18) * 3) + 1;
-              const marginY = Math.floor(cellRandom(row, col, 19) * 3) + 1;
-              brick.style.margin = marginY + "px " + marginX + "px";
-
-              fragment.appendChild(brick);
-            }
-          }
-
-          wall.appendChild(fragment);
-        }
-
-        buildWall();
-
-        // Bangun ulang tembok saat ukuran layar berubah (debounced)
-        let resizeTimer;
-        window.addEventListener("resize", () => {
-          clearTimeout(resizeTimer);
-          resizeTimer = setTimeout(buildWall, 300);
-        });
-      })();
 
       // Contact Form -> Formspree (no backend/PHP needed)
       (function () {
