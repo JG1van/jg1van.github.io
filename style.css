@@ -1966,3 +1966,339 @@ a {
     position: relative;
     z-index: 2;
 }
+
+
+/* ===== HERO (ganti seluruh isi <style> di portfolio.html dengan ini) ===== */
+:root {
+    --gold: #c9b28a;
+}
+
+.hero {
+    padding-top: 76px;
+}
+
+/* ruang untuk navbar fixed, supaya ribbon tidak terpotong */
+
+.hero-inner {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 76px);
+    padding-block: 28px 40px;
+}
+
+/* --- Bingkai emas + ornamen sudut --- */
+.hero-frame {
+    position: absolute;
+    inset: 90px 20px 20px;
+    border: 1px solid rgba(201, 178, 138, 0.45);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.hero-frame .c {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--color-dark);
+    border: 1px solid var(--gold);
+    transform: rotate(45deg);
+}
+
+.hero-frame .tl {
+    top: -6px;
+    left: -6px;
+}
+
+.hero-frame .tr {
+    top: -6px;
+    right: -6px;
+}
+
+.hero-frame .bl {
+    bottom: -6px;
+    left: -6px;
+}
+
+.hero-frame .br {
+    bottom: -6px;
+    right: -6px;
+}
+
+/* --- Foto tengah, menyatu ke latar --- */
+.hero-photo {
+    position: absolute;
+    top: 120px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: min(44vw, 700px);
+    z-index: 1;
+    pointer-events: none;
+    -webkit-mask-image:
+        linear-gradient(to right,
+            transparent 0%,
+            #000 20%,
+            #000 80%,
+            transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 12%, #000 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+        linear-gradient(to right,
+            transparent 0%,
+            #000 20%,
+            #000 80%,
+            transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 12%, #000 100%);
+    mask-composite: intersect;
+}
+
+.hero-photo a {
+    display: block;
+    height: 100%;
+    pointer-events: auto;
+}
+
+.hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+
+/* --- Grid: kiri tautan | tengah foto | kanan gulungan --- */
+.hero-grid {
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-top: 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1.05fr);
+    align-items: center;
+    gap: 24px;
+}
+
+/* --- Kiri --- */
+.hero-links {
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 340px;
+}
+
+.hero-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 18px 10px 12px;
+    color: #fff;
+    font-size: 1.15rem;
+    background: rgba(9, 28, 24, 0.78);
+    border: 1px solid rgba(201, 178, 138, 0.55);
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+    transition:
+        border-color 0.2s,
+        background-color 0.2s,
+        transform 0.2s;
+}
+
+.hero-link:hover {
+    color: #fff;
+    background: rgba(40, 90, 72, 0.7);
+    border-color: var(--color-green-light);
+}
+
+.hero-link:hover .hero-link-arrow {
+    transform: translateX(4px);
+}
+
+.hero-link:focus-visible,
+.hero-pill:focus-visible {
+    outline: 2px solid var(--color-green-light);
+    outline-offset: 3px;
+}
+
+.hero-link-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    font-size: 1.5rem;
+}
+
+.hero-link-icon--light {
+    background: #fff;
+    color: var(--color-dark);
+}
+
+.hero-link-icon--paper {
+    background: var(--color-paper-2);
+    color: var(--color-green-dark);
+}
+
+.hero-link-label {
+    flex: 1;
+}
+
+.hero-link-arrow {
+    transition: transform 0.2s;
+}
+
+.hero-pill {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: fit-content;
+    padding: 8px 20px 8px 14px;
+    font-size: 0.95rem;
+    color: #fff;
+    white-space: nowrap;
+    background: rgba(9, 28, 24, 0.78);
+    border: 1px solid rgba(201, 178, 138, 0.5);
+    border-radius: 999px;
+}
+
+.hero-pill i {
+    color: var(--gold);
+    font-size: 1.1rem;
+}
+
+/* --- Kanan: gulungan perkamen (gaya SVG lama) --- */
+.hero-scroll {
+    grid-column: 3;
+    position: relative;
+    filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.55));
+}
+
+.scroll-roller {
+    position: relative;
+    z-index: 2;
+    height: 24px;
+    margin: 0 -10px;
+    border-radius: 6px;
+    border: 1.5px solid #0f2a20;
+    background: linear-gradient(180deg,
+            #408a71 0%,
+            #d2b48c 35%,
+            #408a71 65%,
+            #5d4037 100%);
+}
+
+.scroll-roller::before,
+.scroll-roller::after {
+    /* tutup ujung gulungan */
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    border-radius: 50%;
+    background: #0f2a20;
+}
+
+.scroll-roller::before {
+    left: -8px;
+}
+
+.scroll-roller::after {
+    right: -8px;
+}
+
+.scroll-paper {
+    position: relative;
+    padding: 26px 30px 54px;
+    color: var(--color-paper-text);
+    background:
+        repeating-linear-gradient(180deg,
+            transparent 0 33px,
+            rgba(40, 90, 72, 0.18) 33px 34px),
+        linear-gradient(90deg,
+            #e3d0b0 0%,
+            #fdf5e6 15%,
+            #fffaf0 50%,
+            #fdf5e6 85%,
+            #e3d0b0 100%);
+    border-inline: 1px solid var(--color-green-dark);
+}
+
+.scroll-paper h2 {
+    font-family: "Cardo", serif;
+    font-weight: 700;
+    font-size: clamp(1.35rem, 1.9vw, 1.9rem);
+    line-height: 1.2;
+    color: var(--color-green-dark);
+    margin: 0 0 12px;
+}
+
+.scroll-rule {
+    display: block;
+    height: 2px;
+    margin-bottom: 14px;
+    background: linear-gradient(90deg,
+            var(--color-green-dark),
+            rgba(40, 90, 72, 0.15));
+}
+
+.scroll-paper p {
+    margin: 0;
+    max-width: 46ch;
+    font-size: 1.02rem;
+    line-height: 1.7;
+    color: var(--color-paper-text);
+}
+
+.scroll-quill {
+    position: absolute;
+    right: -14px;
+    bottom: -26px;
+    width: 92px;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+}
+
+/* --- Tablet & HP --- */
+@media (max-width: 991.98px) {
+    .hero-frame {
+        display: none;
+    }
+
+    .hero-photo {
+        width: 100%;
+        opacity: 0.4;
+        -webkit-mask-image: linear-gradient(to bottom,
+                #000 0%,
+                #000 55%,
+                transparent 100%);
+        mask-image: linear-gradient(to bottom,
+                #000 0%,
+                #000 55%,
+                transparent 100%);
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding-top: 34vh;
+    }
+
+    .hero-links,
+    .hero-scroll {
+        grid-column: 1;
+        max-width: none;
+    }
+
+    .hero-scroll {
+        order: -1;
+    }
+
+    .scroll-quill {
+        width: 70px;
+        right: -6px;
+    }
+}
