@@ -1077,7 +1077,17 @@ a {
 
 /* ===== Section umum ===== */
 .section {
+    position: relative;
     background-color: rgba(9, 20, 19, 0.85);
+}
+
+.section .hero-frame {
+    inset: 20px;
+    border-color: rgba(201, 178, 138, 0.45);
+}
+
+.site-footer {
+    border: none;
 }
 
 
@@ -2026,7 +2036,6 @@ a {
     right: -6px;
 }
 
-/* --- Foto tengah, menyatu ke latar --- */
 .hero-photo {
     position: absolute;
     top: 120px;
@@ -2068,33 +2077,36 @@ a {
     object-position: center top;
 }
 
-/* --- Grid: kiri tautan | tengah foto | kanan gulungan --- */
+/* --- Grid: tautan + scroll (2 kolom) --- */
 .hero-grid {
-    margin-top: auto;
-    margin-bottom: auto;
-    padding-top: 24px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1.05fr);
-    align-items: center;
-    gap: 24px;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
 }
 
-/* --- Kiri --- */
+/* --- Kiri: 5 kapsul seragam --- */
 .hero-links {
-    grid-column: 1;
+    max-width: 340px;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 14px;
-    max-width: 340px;
 }
 
-.hero-link {
+/* Aturan dasar untuk SEMUA 5 kapsul (link + pill) — ukuran seragam */
+.hero-link,
+.hero-pill {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 10px 18px 10px 12px;
+    gap: 12px;
+    box-sizing: border-box;
+    min-height: 48px;
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 1rem;
+    line-height: 1.2;
     color: #fff;
-    font-size: 1.15rem;
     background: rgba(9, 28, 24, 0.78);
     border: 1px solid rgba(201, 178, 138, 0.55);
     border-radius: 999px;
@@ -2105,30 +2117,23 @@ a {
         transform 0.2s;
 }
 
-.hero-link:hover {
+/* Hover state sama untuk keduanya */
+.hero-link:hover,
+.hero-pill:hover {
     color: #fff;
     background: rgba(40, 90, 72, 0.7);
     border-color: var(--color-green-light);
 }
 
-.hero-link:hover .hero-link-arrow {
-    transform: translateX(4px);
-}
-
-.hero-link:focus-visible,
-.hero-pill:focus-visible {
-    outline: 2px solid var(--color-green-light);
-    outline-offset: 3px;
-}
-
+/* Kustomisasi ikon per tipe */
 .hero-link-icon {
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 36px;
     flex-shrink: 0;
     display: grid;
     place-items: center;
-    border-radius: 12px;
-    font-size: 1.5rem;
+    border-radius: 50%;
+    font-size: 1.2rem;
 }
 
 .hero-link-icon--light {
@@ -2141,31 +2146,18 @@ a {
     color: var(--color-green-dark);
 }
 
-.hero-link-label {
-    flex: 1;
-}
-
+/* Arrow hanya untuk .hero-link (LinkedIn/GitHub/CV), bukan .hero-pill */
 .hero-link-arrow {
     transition: transform 0.2s;
+    flex-shrink: 0;
+    font-size: 0.8rem;
 }
 
-.hero-pill {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: fit-content;
-    padding: 8px 20px 8px 14px;
-    font-size: 0.95rem;
-    color: #fff;
-    white-space: nowrap;
-    background: rgba(9, 28, 24, 0.78);
-    border: 1px solid rgba(201, 178, 138, 0.5);
-    border-radius: 999px;
-}
-
+/* Pil tanpa arrow */
 .hero-pill i {
     color: var(--gold);
     font-size: 1.1rem;
+    flex-shrink: 0;
 }
 
 /* --- Kanan: gulungan perkamen (gaya SVG lama) --- */
@@ -2300,5 +2292,101 @@ a {
     .scroll-quill {
         width: 70px;
         right: -6px;
+    }
+}
+
+@media (max-width: 600px) {
+
+    /* Foto jadi lingkaran + tampilkan di atas grid */
+    .hero-grid {
+        padding-top: 136px;
+        /* sebelumnya 100px; kalau masih terlalu jauh/dekat, ubah angka ini saja */
+    }
+
+    .hero-photo {
+        top: 176px;
+        /* tepat di bawah ribbon nama */
+        bottom: auto;
+        /* lepas dari bawah supaya tinggi tidak ditarik */
+        width: 140px;
+        height: 140px;
+        margin: 0 auto;
+        /* tetap center horizontal (left/right: 0 dari aturan dasar) */
+        border-radius: 50%;
+        overflow: hidden;
+        /* supaya gambar benar-benar terpotong bulat */
+        opacity: 1;
+        /* batalkan opacity 0.4 dari aturan tablet */
+        -webkit-mask-image: none;
+        mask-image: none;
+        border: 3px solid var(--gold);
+        box-shadow:
+            0 0 0 4px rgba(9, 20, 19, 0.95),
+            /* celah gelap */
+            0 0 0 5px rgba(201, 178, 138, 0.6),
+            /* cincin emas tipis di luar */
+            0 8px 20px rgba(0, 0, 0, 0.5);
+        /* bayangan ke bawah */
+    }
+
+
+    /* Grid: baris 1 = LinkedIn/GitHub/CV, baris 2 = Yogyakarta, baris 3 = Siap Kerja */
+    .hero-links {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .hero-link {
+        font-size: 0.85rem;
+        min-height: 40px;
+        padding: 6px 8px;
+        justify-content: center;
+    }
+
+    .hero-link-arrow {
+        display: none;
+    }
+
+    /* Pill: lebar penuh, satu per baris */
+    .hero-pill {
+        grid-column: 1 / -1;
+        font-size: 0.8rem;
+        padding: 8px 14px;
+        justify-content: center;
+    }
+}
+
+/* ===== Desktop: kapsul (kiri) & gulungan (kanan) simetris ===== */
+@media (min-width: 992px) {
+    .hero-grid {
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        /* tengah vertikal sama */
+    }
+
+    .hero-grid .hero-links {
+        grid-column: 1;
+        justify-self: start;
+        /* nempel tepi kiri container */
+        width: 340px;
+        max-width: 340px;
+        margin: 0;
+    }
+
+    .hero-grid .hero-scroll {
+        grid-column: 2;
+        /* hapus kolom ke-3 */
+        justify-self: end;
+        /* nempel tepi kanan container */
+        width: 472px;
+        /* lebar kertas terlihat = 340px */
+        margin-right: -66px;
+        /* buang ruang kosong SVG di kanan */
+    }
+
+    .hero-grid .hero-scroll-svg {
+        width: 100%;
+        max-width: none;
     }
 }
