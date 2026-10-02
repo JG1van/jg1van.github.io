@@ -1708,17 +1708,18 @@ a {
     z-index: 2;
 }
 
-
-/* ===== HERO (ganti seluruh isi <style> di portfolio.html dengan ini) ===== */
+/* =====================================================================
+   HERO — GANTI semua CSS dari komentar "HERO" sampai AKHIR style.css
+   dengan isi file ini. Hapus juga <style> inline di dalam <section id="hero">.
+   ===================================================================== */
 :root {
     --gold: #c9b28a;
 }
 
 .hero {
     padding-top: 76px;
+    overflow: hidden;
 }
-
-/* ruang untuk navbar fixed, supaya ribbon tidak terpotong */
 
 .hero-inner {
     position: relative;
@@ -1767,30 +1768,24 @@ a {
     right: -6px;
 }
 
+/* --- Foto (desktop: latar di belakang, di tengah) --- */
 .hero-photo {
     position: absolute;
-    top: 120px;
+    top: 44px;
+    /* relatif ke .hero-inner (sebelumnya 120px relatif ke .hero) */
     bottom: 0;
     left: 0;
     right: 0;
     margin: 0 auto;
     width: min(44vw, 700px);
-    z-index: 1;
+    z-index: -1;
     pointer-events: none;
     -webkit-mask-image:
-        linear-gradient(to right,
-            transparent 0%,
-            #000 20%,
-            #000 80%,
-            transparent 100%),
+        linear-gradient(to right, transparent 0%, #000 20%, #000 80%, transparent 100%),
         linear-gradient(to bottom, transparent 0%, #000 12%, #000 100%);
     -webkit-mask-composite: source-in;
     mask-image:
-        linear-gradient(to right,
-            transparent 0%,
-            #000 20%,
-            #000 80%,
-            transparent 100%),
+        linear-gradient(to right, transparent 0%, #000 20%, #000 80%, transparent 100%),
         linear-gradient(to bottom, transparent 0%, #000 12%, #000 100%);
     mask-composite: intersect;
 }
@@ -1808,16 +1803,21 @@ a {
     object-position: center top;
 }
 
-/* --- Grid: tautan + scroll (2 kolom) --- */
+/* --- Grid: kapsul + gulungan.  minmax(0,1fr) = kunci anti-overflow --- */
 .hero-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 40px;
-    align-items: start;
+    align-items: center;
 }
 
-/* --- Kiri: 5 kapsul seragam --- */
+.hero-grid>* {
+    min-width: 0;
+}
+
+/* --- Kapsul --- */
 .hero-links {
+    width: 100%;
     max-width: 340px;
     margin: 0 auto;
     display: flex;
@@ -1825,13 +1825,11 @@ a {
     gap: 14px;
 }
 
-/* Aturan dasar untuk SEMUA 5 kapsul (link + pill) — ukuran seragam */
 .hero-link,
 .hero-pill {
     display: flex;
     align-items: center;
     gap: 12px;
-    box-sizing: border-box;
     min-height: 48px;
     width: 100%;
     padding: 10px 20px;
@@ -1842,13 +1840,9 @@ a {
     border: 1px solid rgba(201, 178, 138, 0.55);
     border-radius: 999px;
     backdrop-filter: blur(6px);
-    transition:
-        border-color 0.2s,
-        background-color 0.2s,
-        transform 0.2s;
+    transition: border-color 0.2s, background-color 0.2s, transform 0.2s;
 }
 
-/* Hover state sama untuk keduanya */
 .hero-link:hover,
 .hero-pill:hover {
     color: #fff;
@@ -1856,7 +1850,10 @@ a {
     border-color: var(--color-green-light);
 }
 
-/* Kustomisasi ikon per tipe */
+.hero-link-label {
+    white-space: nowrap;
+}
+
 .hero-link-icon {
     width: 36px;
     height: 36px;
@@ -1877,229 +1874,127 @@ a {
     color: var(--color-green-dark);
 }
 
-/* Arrow hanya untuk .hero-link (LinkedIn/GitHub/CV), bukan .hero-pill */
 .hero-link-arrow {
-    transition: transform 0.2s;
+    margin-left: auto;
     flex-shrink: 0;
     font-size: 0.8rem;
+    transition: transform 0.2s;
 }
 
-/* Pil tanpa arrow */
 .hero-pill i {
     color: var(--gold);
     font-size: 1.1rem;
     flex-shrink: 0;
 }
 
-/* --- Kanan: gulungan perkamen (gaya SVG lama) --- */
+/* --- Gulungan (SVG) --- */
 .hero-scroll {
-    grid-column: 3;
-    position: relative;
-    filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.55));
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
-.scroll-roller {
-    position: relative;
-    z-index: 2;
-    height: 24px;
-    margin: 0 -10px;
-    border-radius: 6px;
-    border: 1.5px solid #0f2a20;
-    background: linear-gradient(180deg,
-            #408a71 0%,
-            #d2b48c 35%,
-            #408a71 65%,
-            #5d4037 100%);
+.hero-scroll-svg {
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+    overflow: visible;
+    filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.45));
 }
 
-.scroll-roller::before,
-.scroll-roller::after {
-    /* tutup ujung gulungan */
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 20px;
-    height: 20px;
-    margin-top: -10px;
-    border-radius: 50%;
-    background: #0f2a20;
+.hero-scroll-svg .scroll-text {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-sizing: border-box;
+    font-family: inherit;
+    color: #2b2118;
+    overflow: hidden;
 }
 
-.scroll-roller::before {
-    left: -8px;
+.hero-scroll-svg .scroll-greet {
+    margin: 0 0 2px;
+    font-size: 15px;
+    font-style: italic;
+    letter-spacing: 0.02em;
+    color: #5a4633;
 }
 
-.scroll-roller::after {
-    right: -8px;
-}
-
-.scroll-paper {
-    position: relative;
-    padding: 26px 30px 54px;
-    color: var(--color-paper-text);
-    background:
-        repeating-linear-gradient(180deg,
-            transparent 0 33px,
-            rgba(40, 90, 72, 0.18) 33px 34px),
-        linear-gradient(90deg,
-            #e3d0b0 0%,
-            #fdf5e6 15%,
-            #fffaf0 50%,
-            #fdf5e6 85%,
-            #e3d0b0 100%);
-    border-inline: 1px solid var(--color-green-dark);
-}
-
-.scroll-paper h2 {
-    font-family: "Cardo", serif;
-    font-weight: 700;
-    font-size: clamp(1.35rem, 1.9vw, 1.9rem);
-    line-height: 1.2;
-    color: var(--color-green-dark);
-    margin: 0 0 12px;
-}
-
-.scroll-rule {
-    display: block;
-    height: 2px;
-    margin-bottom: 14px;
-    background: linear-gradient(90deg,
-            var(--color-green-dark),
-            rgba(40, 90, 72, 0.15));
-}
-
-.scroll-paper p {
+.hero-scroll-svg .scroll-text h2 {
     margin: 0;
-    max-width: 46ch;
-    font-size: 1.02rem;
-    line-height: 1.7;
-    color: var(--color-paper-text);
+    font-size: 25px;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #173226;
 }
 
-.scroll-quill {
-    position: absolute;
-    right: -14px;
-    bottom: -26px;
-    width: 92px;
-    pointer-events: none;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+.hero-scroll-svg .scroll-rule {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 12px 0 14px;
 }
 
-/* --- Tablet & HP --- */
-@media (max-width: 991.98px) {
-    .hero-frame {
-        display: none;
-    }
+.hero-scroll-svg .scroll-rule::before,
+.hero-scroll-svg .scroll-rule::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #285a48;
+    opacity: 0.55;
+}
 
-    .hero-photo {
-        width: 100%;
-        opacity: 0.4;
-        -webkit-mask-image: linear-gradient(to bottom,
-                #000 0%,
-                #000 55%,
-                transparent 100%);
-        mask-image: linear-gradient(to bottom,
-                #000 0%,
-                #000 55%,
-                transparent 100%);
-    }
+.hero-scroll-svg .scroll-rule i {
+    width: 7px;
+    height: 7px;
+    background: #408a71;
+    transform: rotate(45deg);
+}
 
+.hero-scroll-svg .scroll-body {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: left;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    color: #3b2f22;
+}
+
+.hero-scroll-svg .scroll-body strong {
+    font-weight: 600;
+    color: #173226;
+}
+
+.hero-scroll-svg .scroll-body::first-letter {
+    float: left;
+    font-size: 2.9em;
+    line-height: 0.8;
+    padding: 4px 6px 0 0;
+    font-weight: 700;
+    color: #285a48;
+}
+
+/* =====================================================================
+   DESKTOP (>= 992px): kapsul kiri, gulungan kanan
+   ===================================================================== */
+@media (min-width: 992px) {
+
+    /* foto di belakang tidak boleh terhalang grid transparan */
     .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding-top: 34vh;
+        pointer-events: none;
     }
 
     .hero-links,
     .hero-scroll {
-        grid-column: 1;
-        max-width: none;
-    }
-
-    .hero-scroll {
-        order: -1;
-    }
-
-    .scroll-quill {
-        width: 70px;
-        right: -6px;
-    }
-}
-
-@media (max-width: 600px) {
-
-    /* Foto jadi lingkaran + tampilkan di atas grid */
-    .hero-grid {
-        padding-top: 136px;
-        /* sebelumnya 100px; kalau masih terlalu jauh/dekat, ubah angka ini saja */
-    }
-
-    .hero-photo {
-        top: 176px;
-        /* tepat di bawah ribbon nama */
-        bottom: auto;
-        /* lepas dari bawah supaya tinggi tidak ditarik */
-        width: 140px;
-        height: 140px;
-        margin: 0 auto;
-        /* tetap center horizontal (left/right: 0 dari aturan dasar) */
-        border-radius: 50%;
-        overflow: hidden;
-        /* supaya gambar benar-benar terpotong bulat */
-        opacity: 1;
-        /* batalkan opacity 0.4 dari aturan tablet */
-        -webkit-mask-image: none;
-        mask-image: none;
-        border: 3px solid var(--gold);
-        box-shadow:
-            0 0 0 4px rgba(9, 20, 19, 0.95),
-            /* celah gelap */
-            0 0 0 5px rgba(201, 178, 138, 0.6),
-            /* cincin emas tipis di luar */
-            0 8px 20px rgba(0, 0, 0, 0.5);
-        /* bayangan ke bawah */
-    }
-
-
-    /* Grid: baris 1 = LinkedIn/GitHub/CV, baris 2 = Yogyakarta, baris 3 = Siap Kerja */
-    .hero-links {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-    }
-
-    .hero-link {
-        font-size: 0.85rem;
-        min-height: 40px;
-        padding: 6px 8px;
-        justify-content: center;
-    }
-
-    .hero-link-arrow {
-        display: none;
-    }
-
-    /* Pill: lebar penuh, satu per baris */
-    .hero-pill {
-        grid-column: 1 / -1;
-        font-size: 0.8rem;
-        padding: 8px 14px;
-        justify-content: center;
-    }
-}
-
-/* ===== Desktop: kapsul (kiri) & gulungan (kanan) simetris ===== */
-@media (min-width: 992px) {
-    .hero-grid {
-        grid-template-columns: 1fr 1fr;
-        align-items: center;
-        /* tengah vertikal sama */
+        pointer-events: auto;
     }
 
     .hero-grid .hero-links {
         grid-column: 1;
         justify-self: start;
-        /* nempel tepi kiri container */
         width: 340px;
         max-width: 340px;
         margin: 0;
@@ -2107,17 +2002,99 @@ a {
 
     .hero-grid .hero-scroll {
         grid-column: 2;
-        /* hapus kolom ke-3 */
         justify-self: end;
-        /* nempel tepi kanan container */
-        width: 472px;
-        /* lebar kertas terlihat = 340px */
-        margin-right: -66px;
-        /* buang ruang kosong SVG di kanan */
+        width: 440px;
+        margin-right: -20px;
+        /* ruang kosong SVG di tepi kanan */
+    }
+}
+
+/* =====================================================================
+   TABLET & HP (< 992px): satu kolom, semua di sumbu tengah
+   urutan: ribbon -> foto -> gulungan -> kapsul
+   ===================================================================== */
+@media (max-width: 991.98px) {
+    .hero-frame {
+        display: none;
     }
 
-    .hero-grid .hero-scroll-svg {
-        width: 100%;
-        max-width: none;
+    .hero-photo {
+        position: relative;
+        inset: auto;
+        flex: none;
+        width: 150px;
+        height: 150px;
+        margin: 20px auto 6px;
+        z-index: 1;
+        border-radius: 50%;
+        overflow: hidden;
+        pointer-events: auto;
+        -webkit-mask-image: none;
+        mask-image: none;
+        border: 3px solid var(--gold);
+        box-shadow:
+            0 0 0 4px rgba(9, 20, 19, 0.95),
+            0 0 0 5px rgba(201, 178, 138, 0.6),
+            0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+        margin-top: 14px;
+    }
+
+    .hero-scroll {
+        order: -1;
+    }
+
+    /* kapsul: 2 kolom -> LinkedIn | GitHub, sisanya selebar penuh */
+    .hero-links {
+        max-width: 420px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .hero-link {
+        justify-content: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+
+    .hero-link-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+    }
+
+    .hero-link-arrow {
+        display: none;
+    }
+
+    .hero-link:nth-child(3),
+    /* Download CV */
+    .hero-pill {
+        grid-column: 1 / -1;
+    }
+
+    .hero-pill {
+        justify-content: center;
+        min-height: 44px;
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .hero-link {
+        font-size: 0.82rem;
+        padding-inline: 8px;
+    }
+
+    .hero-pill {
+        font-size: 0.78rem;
     }
 }
